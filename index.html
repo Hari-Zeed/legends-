@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data Heist — A cinematic cybersecurity event presentation for ABHIGYAN'26 at SRM IST Vadapalani.">
+  <meta name="theme-color" content="#07070a">
+  <title>ABHIGYAN'26 — Data Heist</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap">
+
+  <!-- Preload hero image for faster LCP -->
+  <link rel="preload" as="image" href="assets/slide1.jpg" fetchpriority="high">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Cinematic noise / scanline overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Slide stage -->
+  <main class="stage" id="stage" aria-live="polite" aria-label="Presentation slides"></main>
+
+  <!-- Navigation arrows -->
+  <button class="nav-arrow nav-prev" id="prevBtn" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="nav-arrow nav-next" id="nextBtn" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <!-- HUD: dots + counter + autoplay -->
+  <div class="hud" id="hud">
+    <div class="dots" id="dots" role="tablist" aria-label="Slide navigation"></div>
+    <div class="hud-bottom">
+      <span class="slide-counter" id="counter" aria-live="polite" aria-atomic="true">1 / 5</span>
+      <button class="autoplay-btn" id="autoplayBtn" aria-label="Toggle autoplay" title="Toggle autoplay (5s per slide)">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide progress bar -->
+  <div class="progress-bar" aria-hidden="true">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <script src="slides/slides-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

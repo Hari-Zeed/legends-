@@ -1,0 +1,501 @@
+/* ==========================================================================
+   DATA HEIST — Stylesheet  (Premium Cinematic Edition)
+   Palette:  bg #07070a | red #ff2c47 | deep red #7a0f1c | blue #3f7bff
+             ink #f3f1ec | muted #a2a0ab
+   Type:     Display — 'Bebas Neue' | Body — 'Inter'
+   ========================================================================== */
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root{
+  --bg:         #07070a;
+  --ink:        #f3f1ec;
+  --muted:      #a2a0ab;
+  --red:        #ff2c47;
+  --red-soft:   #ff5a6c;
+  --red-deep:   #7a0f1c;
+  --blue:       #3f7bff;
+  --glass:      rgba(12, 12, 16, 0.58);
+  --glass-brd:  rgba(255, 255, 255, 0.09);
+  --overlay:    linear-gradient(
+    180deg,
+    rgba(4,4,6,.45) 0%,
+    rgba(4,4,6,.68) 40%,
+    rgba(4,4,6,.94) 100%
+  );
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after{ margin:0; padding:0; box-sizing:border-box; }
+
+html, body{
+  height:100%;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ── Scanline overlay ───────────────────────────────────────────────────────── */
+.noise-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  pointer-events:none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.045) 0px,
+      rgba(0,0,0,.045) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode:overlay;
+}
+
+/* ── Stage ──────────────────────────────────────────────────────────────────── */
+.stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* ── Slide base ─────────────────────────────────────────────────────────────── */
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  visibility:hidden;
+  transform:scale(1.06);
+  pointer-events:none;
+  transition:
+    opacity .85s cubic-bezier(.22,.61,.36,1),
+    transform 1.05s cubic-bezier(.22,.61,.36,1),
+    visibility 0s linear .85s;
+}
+
+.slide.is-active{
+  opacity:1;
+  visibility:visible;
+  transform:scale(1);
+  pointer-events:auto;
+  z-index:2;
+  transition:
+    opacity .85s cubic-bezier(.22,.61,.36,1),
+    transform 1.05s cubic-bezier(.22,.61,.36,1),
+    visibility 0s linear 0s;
+}
+
+.slide.is-prev{
+  opacity:0;
+  transform:scale(.96);
+  z-index:1;
+}
+
+/* ── Slide background ───────────────────────────────────────────────────────── */
+.slide-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:saturate(1.1) contrast(1.05) brightness(.88);
+}
+
+.slide.is-active .slide-bg{
+  animation:kenburns 14s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns{
+  from{ transform:scale(1); }
+  to{   transform:scale(1.05) translate(1%,.5%); }
+}
+
+.slide-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 80% 65% at 50% 50%, rgba(255,44,71,.06) 0%, transparent 70%);
+}
+
+.slide-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--overlay);
+}
+
+/* ── Slide content ──────────────────────────────────────────────────────────── */
+.slide-content{
+  position:relative;
+  z-index:2;
+  width:min(960px, 88%);
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.2rem;
+}
+
+.slide.is-active .slide-content{
+  animation:contentIn .9s cubic-bezier(.22,.61,.36,1) .15s both;
+}
+
+@keyframes contentIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{   opacity:1; transform:translateY(0); }
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
+.eyebrow{
+  font-size:.78rem;
+  letter-spacing:.36em;
+  color:var(--red-soft);
+  font-weight:600;
+  text-transform:uppercase;
+  text-shadow:0 0 20px rgba(255,90,108,.5);
+}
+
+.eyebrow--final{
+  color:#6bffb0;
+  text-shadow:0 0 20px rgba(107,255,176,.5);
+}
+
+.headline{
+  font-family:'Bebas Neue','Inter',sans-serif;
+  line-height:.92;
+  letter-spacing:.01em;
+  text-shadow:0 0 44px rgba(255,44,71,.4), 0 4px 40px rgba(0,0,0,.75);
+}
+
+.headline--xl{ font-size:clamp(3rem, 8vw, 6.8rem); }
+
+.headline--final{
+  font-size:clamp(2.8rem, 7.4vw, 6.2rem);
+  color:#f5fff9;
+  text-shadow:0 0 44px rgba(107,255,176,.35), 0 4px 40px rgba(0,0,0,.75);
+}
+
+.headline-break{
+  display:block;
+  color:var(--red);
+  margin-top:.08em;
+}
+
+.headline--final .headline-break{ color:#6bffb0; }
+
+.subtitle{
+  font-size:clamp(.95rem, 1.6vw, 1.15rem);
+  color:var(--muted);
+  font-weight:500;
+  letter-spacing:.025em;
+}
+
+/* ── Team chips ─────────────────────────────────────────────────────────────── */
+.team-row{
+  display:flex;
+  gap:.85rem;
+  margin-top:.6rem;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.team-chip{
+  padding:.55rem 1.5rem;
+  border-radius:999px;
+  border:1px solid rgba(255,44,71,.3);
+  background:rgba(255,44,71,.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  font-size:.92rem;
+  font-weight:600;
+  letter-spacing:.03em;
+  transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease, background .3s ease;
+}
+
+.team-chip:hover{
+  border-color:rgba(255,44,71,.7);
+  background:rgba(255,44,71,.18);
+  box-shadow:0 0 28px rgba(255,44,71,.4);
+  transform:translateY(-3px);
+}
+
+/* ── Card tag / name headings ───────────────────────────────────────────────── */
+.card-tag{
+  font-size:.76rem;
+  letter-spacing:.36em;
+  text-transform:uppercase;
+  color:var(--red-soft);
+  font-weight:600;
+  text-shadow:0 0 16px rgba(255,90,108,.45);
+}
+
+.card-tag--blue{
+  color:#8fb4ff;
+  text-shadow:0 0 16px rgba(143,180,255,.45);
+}
+
+.name-heading{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.6rem, 6vw, 4.4rem);
+  letter-spacing:.02em;
+  text-shadow:0 0 32px rgba(255,44,71,.35), 0 4px 24px rgba(0,0,0,.65);
+}
+
+.name-heading--tilt{
+  transform:rotate(-1.2deg);
+  color:#eaf1ff;
+  text-shadow:0 0 32px rgba(63,123,255,.5), 0 4px 24px rgba(0,0,0,.65);
+}
+
+/* ── Glass card ─────────────────────────────────────────────────────────────── */
+.glass-card{
+  width:100%;
+  padding:2.2rem clamp(1.4rem, 4vw, 3rem);
+  border-radius:20px;
+  background:rgba(10,10,14,.62);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 0 0 1px rgba(255,44,71,.05);
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  font-size:clamp(.95rem, 1.7vw, 1.15rem);
+  line-height:1.62;
+  color:#ede9e2;
+  text-align:left;
+}
+
+.glass-card--calm{
+  border-radius:18px;
+  gap:1.2rem;
+}
+
+.divider-line{
+  width:56px;
+  height:2px;
+  background:linear-gradient(90deg, var(--red), transparent);
+  border:none;
+  align-self:flex-start;
+  margin:0;
+}
+
+.quote-highlight{
+  color:var(--red-soft);
+  font-weight:700;
+}
+
+.quote-highlight--blue{ color:#8fb4ff; }
+
+.calm-footnote{
+  color:var(--muted);
+  font-size:.92em;
+  font-style:italic;
+}
+
+/* ── Energetic card (Jo) ────────────────────────────────────────────────────── */
+.energetic-lines{
+  width:100%;
+  padding:2rem clamp(1.2rem, 4vw, 2.6rem);
+  border-radius:18px;
+  background:linear-gradient(155deg, rgba(63,123,255,.15), rgba(12,12,18,.58));
+  border:1px solid rgba(143,180,255,.28);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(143,180,255,.12),
+    0 0 0 1px rgba(63,123,255,.07);
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  font-size:clamp(.95rem, 1.7vw, 1.15rem);
+  line-height:1.62;
+  transform:rotate(.4deg);
+  text-align:left;
+}
+
+.energetic-lead{
+  font-weight:700;
+  font-size:1.15em;
+  color:#f5f8ff;
+}
+
+.energetic-cta{ color:#dfe8ff; }
+
+/* ── Final slide ────────────────────────────────────────────────────────────── */
+.final-subtext{
+  font-size:clamp(1rem, 2vw, 1.3rem);
+  color:var(--muted);
+  font-style:italic;
+  letter-spacing:.01em;
+}
+
+/* ── Nav arrows ─────────────────────────────────────────────────────────────── */
+.nav-arrow{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(8,8,12,.65);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:50;
+  transition:
+    box-shadow .25s ease,
+    border-color .25s ease,
+    background .25s ease,
+    transform .18s ease;
+}
+
+.nav-arrow svg{ width:22px; height:22px; }
+
+.nav-arrow:hover{
+  border-color:rgba(255,44,71,.65);
+  background:rgba(255,44,71,.12);
+  box-shadow:0 0 30px rgba(255,44,71,.5), inset 0 0 16px rgba(255,44,71,.07);
+  transform:translateY(-50%) scale(1.08);
+}
+
+.nav-arrow:active{ transform:translateY(-50%) scale(.92); }
+
+.nav-prev{ left:clamp(14px, 2.6vw, 36px); }
+.nav-next{ right:clamp(14px, 2.6vw, 36px); }
+
+/* ── HUD ────────────────────────────────────────────────────────────────────── */
+.hud{
+  position:fixed;
+  bottom:clamp(18px, 3vw, 34px);
+  left:0;
+  right:0;
+  z-index:50;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.7rem;
+  pointer-events:none;
+}
+
+.dots{
+  display:flex;
+  gap:.55rem;
+  pointer-events:auto;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.22);
+  cursor:pointer;
+  border:none;
+  transition:background .3s ease, box-shadow .3s ease, width .3s ease, border-radius .3s ease;
+}
+
+.dot.is-active{
+  width:28px;
+  border-radius:4px;
+  background:var(--red);
+  box-shadow:0 0 16px rgba(255,44,71,.85);
+}
+
+.hud-bottom{
+  display:flex;
+  align-items:center;
+  gap:.85rem;
+  pointer-events:auto;
+}
+
+.slide-counter{
+  font-size:.76rem;
+  letter-spacing:.2em;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  font-weight:500;
+}
+
+/* ── Autoplay button ────────────────────────────────────────────────────────── */
+.autoplay-btn{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(8,8,12,.7);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.autoplay-btn svg{ width:14px; height:14px; }
+
+.autoplay-btn .icon-pause{ display:none; }
+
+.autoplay-btn.is-playing .icon-play{  display:none; }
+.autoplay-btn.is-playing .icon-pause{ display:block; }
+
+.autoplay-btn.is-playing{
+  color:var(--red-soft);
+  border-color:rgba(255,44,71,.45);
+  box-shadow:0 0 14px rgba(255,44,71,.35);
+}
+
+.autoplay-btn:hover{
+  color:var(--ink);
+  border-color:rgba(255,255,255,.28);
+}
+
+/* ── Progress bar ───────────────────────────────────────────────────────────── */
+.progress-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:rgba(255,255,255,.06);
+  z-index:60;
+}
+
+.progress-fill{
+  height:100%;
+  width:20%;
+  background:linear-gradient(90deg, var(--red-deep), var(--red), var(--red-soft));
+  box-shadow:0 0 10px rgba(255,44,71,.65);
+  transition:width .55s cubic-bezier(.22,.61,.36,1);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width:720px){
+  .nav-arrow{ width:44px; height:44px; }
+  .glass-card, .energetic-lines{ padding:1.4rem; }
+  .team-row{ gap:.55rem; }
+  .slide-content{ width:92%; }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .slide{ transition:opacity .3s ease; transform:none !important; }
+  .slide.is-active .slide-bg{ animation:none; }
+  .slide.is-active .slide-content{ animation:none; }
+  .progress-fill{ transition:width .2s linear; }
+}
